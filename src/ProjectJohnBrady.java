@@ -12,7 +12,8 @@ public class ProjectJohnBrady {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// prints a welcome message
-		System.out.println("****************************************************\n"
+		System.out.println(
+				"****************************************************\n"
 				+ "* Welcome to CIT's Round Robin Football Tournament *\n"
 				+ "****************************************************");
 		
@@ -29,7 +30,7 @@ public class ProjectJohnBrady {
 		String winningTeam = "";
 		String teamName = "";
 		String otherTeamName = "";
-		String table = "";
+		String table = "Team Won Drawn Lost Total";
 		
 		int noOfTeams = 0;
 		int result = 0;
@@ -41,7 +42,11 @@ public class ProjectJohnBrady {
 		int count = 1;
 		int gameCounter = 1;
 		int teamNo = 0;
-		
+		int gamesWon = 0;
+		int gamesDrawn = 0;
+		int gamesLost = 0;
+		int totalPoints = 0;
+		int maxPoints = 0;
 		
 		double averageAttendance = 0;
 		double prize = 0;
@@ -50,23 +55,34 @@ public class ProjectJohnBrady {
 
 		// loop to get the number of teams in competition
 		while(noOfTeams < LEASTAMOUNTOFTEAMS){
-			System.out.print("Enter how many teams are parcipitating(must be atleast 2): ");
+			System.out.print("Enter how many teams are parcipitating(must be at-least 2): ");
 			noOfTeams = input.nextInt();
 			input.nextLine();
+			// if input is less than the minimum amount of teams allowed
 			if(noOfTeams < LEASTAMOUNTOFTEAMS){
+				// print error message
 				System.out.println("Enter a valid number of teams.\n");
 			}
 		}
 		
 		gamesPerTeam = noOfTeams;
 		totalGames = noOfTeams * gamesPerTeam / 2;
-		
-		for(int i = 1; i < noOfTeams; i++){
+
+		// loop to get each teams info
+		for(int i = 1; i <= noOfTeams; i++){
+			totalPoints = 0;
+			gamesWon = 0;
+			gamesDrawn = 0;
+			gamesLost = 0;
+			// ask user for teams name
 			System.out.printf("Enter Team %d's name: ", i);
+			// store teams name as a variable
 			teamName = input.nextLine();
+			table = table +  "\n" + teamName;
+			// loop to get the result of each game
 			for(gamesLeft = 1;gamesLeft <= gamesPerTeam;gamesLeft++){
 				if(gamesLeft == i){
-					table = table +  "\tX";
+					//table = table +  "\t-";
 				}
 				else{
 					result = 0;
@@ -80,13 +96,33 @@ public class ProjectJohnBrady {
 						input.nextLine();
 						
 						if(result == 1){
-
+							gamesWon++;
+							totalPoints += POINTSFORWIN;
+						}
+						else if(result == 2){
+							gamesDrawn++;
+							totalPoints += POINTSFORDRAW;
+						}
+						else if(result == 3){
+							gamesLost++;
+							totalPoints += POINTSFORLOSS;
+						}
+						else{
+							System.out.println("Enter a valid result");
 						}
 					}
 				}
 			}
+			if(maxPoints < totalPoints){
+				maxPoints = totalPoints;
+				winningTeam = teamName;
+			}
+			else if(maxPoints == totalPoints){
+				winningTeam += " " + teamName;
+			}
+			table += "\t\t" + gamesWon + "\t" + gamesDrawn + "\t" + gamesLost + "\t" + totalPoints;
 		}
-
+		System.out.println(table);
 		
 		input.close();
 	}
