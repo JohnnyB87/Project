@@ -25,7 +25,6 @@ public class ProjectJohnBrady {
 		final int POINTS_FOR_DRAW = 1;
 		final int POINTS_FOR_LOSS = 0;
 		final double TICKET_PRICE = 5.5;
-        
 		
 		String teamNames = "";
 		String winningTeam = "";
@@ -59,7 +58,7 @@ public class ProjectJohnBrady {
 
 		// loop to get the number of teams in competition
 		while(noOfTeams < LEAST_AMOUNT_OF_TEAMS){
-			System.out.print("Enter how many teams are parcipitating(must be at-least 2): ");
+			System.out.print("Enter how many teams are participating(must be at-least 2): ");
 			noOfTeams = input.nextInt();
 			input.nextLine();
 			// if input is less than the minimum amount of teams allowed
