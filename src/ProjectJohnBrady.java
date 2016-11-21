@@ -19,18 +19,19 @@ public class ProjectJohnBrady {
 		
 		Scanner input = new Scanner(System.in);
 		
-		// Initialising variables and constants
-		final int LEASTAMOUNTOFTEAMS = 2;
-		final int POINTSFORWIN = 3;
-		final int POINTSFORDRAW = 1;
-		final int POINTSFORLOSS = 0;
-		final double TICKETPRICE = 5.5;
+		// Initializing variables and constants
+		final int LEAST_AMOUNT_OF_TEAMS = 2;
+		final int POINTS_FOR_WIN = 3;
+		final int POINTS_FOR_DRAW = 1;
+		final int POINTS_FOR_LOSS = 0;
+		final double TICKET_PRICE = 5.5;
 		
 		String teamNames = "";
 		String winningTeam = "";
 		String teamName = "";
 		String otherTeamName = "";
-		String table = "Team Won Drawn Lost Total";
+		String table = "Team       Won Drawn Lost Total\n"
+					+  "========== === ===== ==== =====";
 		
 		int noOfTeams = 0;
 		int result = 0;
@@ -41,12 +42,15 @@ public class ProjectJohnBrady {
 		int totalAttendance = 0;
 		int count = 1;
 		int gameCounter = 1;
+        int matchNo = 0;
 		int teamNo = 0;
 		int gamesWon = 0;
 		int gamesDrawn = 0;
 		int gamesLost = 0;
 		int totalPoints = 0;
 		int maxPoints = 0;
+		int winningTeams = 1;
+        //int teamNameLen = 0;
 		
 		double averageAttendance = 0;
 		double prize = 0;
@@ -54,18 +58,18 @@ public class ProjectJohnBrady {
 		double totalTakings = 0;
 
 		// loop to get the number of teams in competition
-		while(noOfTeams < LEASTAMOUNTOFTEAMS){
+		while(noOfTeams < LEAST_AMOUNT_OF_TEAMS){
 			System.out.print("Enter how many teams are parcipitating(must be at-least 2): ");
 			noOfTeams = input.nextInt();
 			input.nextLine();
 			// if input is less than the minimum amount of teams allowed
-			if(noOfTeams < LEASTAMOUNTOFTEAMS){
+			if(noOfTeams < LEAST_AMOUNT_OF_TEAMS){
 				// print error message
 				System.out.println("Enter a valid number of teams.\n");
 			}
 		}
 		
-		gamesPerTeam = noOfTeams;
+		gamesPerTeam = noOfTeams - 1;
 		totalGames = noOfTeams * gamesPerTeam / 2;
 
 		// loop to get each teams info
@@ -74,55 +78,88 @@ public class ProjectJohnBrady {
 			gamesWon = 0;
 			gamesDrawn = 0;
 			gamesLost = 0;
+			int teamNameLen = 0;
+			String teamNameGap = "  ";
 			// ask user for teams name
-			System.out.printf("Enter Team %d's name: ", i);
-			// store teams name as a variable
-			teamName = input.nextLine();
-			table = table +  "\n" + teamName;
+			do{
+				System.out.printf("Enter Team %d's name (max 10 letters): ", i);
+				// store teams name as a variable
+				teamName = input.nextLine();
+				teamNameLen = teamName.length();
+			}while(teamNameLen > 10);
+			// loop to add spaces to the end of the name to line up the table
+			for(int l = teamNameLen; l<10; l++){
+				teamNameGap += " ";
+			}
+			table = table +  "\n" + teamName + teamNameGap;
 			// loop to get the result of each game
-			for(gamesLeft = 1;gamesLeft <= gamesPerTeam;gamesLeft++){
+            matchNo = 1;
+            teamNo++;
+			for(gamesLeft = 1;gamesLeft <= noOfTeams;gamesLeft++){
+				// if statement that makes the loop skip if the team is playing itself
 				if(gamesLeft == i){
-					//table = table +  "\t-";
+
 				}
 				else{
 					result = 0;
+					if(gamesLeft < i){
+						System.out.printf("Carefully re-enter the result with team %d.%n",i);
+                        gameCounter--;
+					}
 					while(result < 1 || result > 3){
-						System.out.printf("Enter results%n%s -V- Team %d%n"
+						System.out.printf("Enter results for match %d, game %d of %d for Team %d%n%s -V- Team %d%n"
 								+ "1. Win%n"
 								+ "2. Draw%n"
 								+ "3. Lose%n"
-								,teamName,gamesLeft);
+								, gameCounter, matchNo, gamesPerTeam, teamNo, teamName, gamesLeft);
 						result = input.nextInt();
 						input.nextLine();
 						
 						if(result == 1){
 							gamesWon++;
-							totalPoints += POINTSFORWIN;
+							totalPoints += POINTS_FOR_WIN;
 						}
 						else if(result == 2){
 							gamesDrawn++;
-							totalPoints += POINTSFORDRAW;
+							totalPoints += POINTS_FOR_DRAW;
 						}
 						else if(result == 3){
 							gamesLost++;
-							totalPoints += POINTSFORLOSS;
+							totalPoints += POINTS_FOR_LOSS;
 						}
 						else{
-							System.out.println("Enter a valid result");
+							System.out.println("Enter a valid result.");
+                            gameCounter--;
 						}
+                        gameCounter++;
 					}
+					if(gamesLeft > i){
+						System.out.print("Enter attendance of the game: ");
+						totalAttendance += input.nextInt();
+						input.nextLine();
+					}
+                    matchNo++;
+
 				}
 			}
 			if(maxPoints < totalPoints){
 				maxPoints = totalPoints;
 				winningTeam = teamName;
+				winningTeams = 1;
 			}
 			else if(maxPoints == totalPoints){
 				winningTeam += " " + teamName;
+				winningTeams++;
 			}
-			table += "\t\t" + gamesWon + "\t" + gamesDrawn + "\t" + gamesLost + "\t" + totalPoints;
+			table +=  gamesWon + "    " + gamesDrawn + "    " + gamesLost + "     " + totalPoints;
 		}
-		System.out.println(table);
+		averageAttendance = totalAttendance / totalGames;
+        totalTakings = totalAttendance * TICKET_PRICE;
+        prize = totalTakings * .5 / winningTeams;
+
+		System.out.printf("%s%nTotal Attendance: %d%nAverage Attendance: %.2f%nTotal Takings: %.2f%n" +
+                        "Winning Team(s): %s with €%.2f each%n"
+                , table, totalAttendance, averageAttendance, totalTakings, winningTeam, prize);
 		
 		input.close();
 	}
