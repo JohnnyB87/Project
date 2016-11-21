@@ -29,6 +29,8 @@ public class ProjectJohnBrady {
 		String teamNames = "";
 		String winningTeam = "";
 		String teamName = "";
+
+        int justbecause;
 		String otherTeamName = "";
 		String table = "Team       Won Drawn Lost Total\n"
 					+  "========== === ===== ==== =====";
