@@ -50,7 +50,6 @@ public class ProjectJohnBrady {
 		int totalPoints = 0;
 		int maxPoints = 0;
 		int winningTeams = 1;
-        //int teamNameLen = 0;
 		
 		double averageAttendance = 0;
 		double prize = 0;
@@ -139,7 +138,6 @@ public class ProjectJohnBrady {
 						input.nextLine();
 					}
                     matchNo++;
-
 				}
 			}
 			if(maxPoints < totalPoints){
