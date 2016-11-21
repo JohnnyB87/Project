@@ -25,6 +25,7 @@ public class ProjectJohnBrady {
 		final int POINTS_FOR_DRAW = 1;
 		final int POINTS_FOR_LOSS = 0;
 		final double TICKET_PRICE = 5.5;
+        
 		
 		String teamNames = "";
 		String winningTeam = "";
