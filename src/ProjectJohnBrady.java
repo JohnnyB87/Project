@@ -124,37 +124,25 @@ public class ProjectJohnBrady {
                             int resultsLen = results.length();
                             int resultFinder = resultsLen - (temp * temp2 + 1);
                             resultChar = results.charAt(resultFinder);
-//                            System.out.println("----------");
-//                            System.out.println(results);
-//                            System.out.println(resultChar);
-//                            System.out.println(resultFinder);
-//                            System.out.println("----------");
-                            if(resultChar == '3') {
-                                result = 1;
-                            }
-                            else if(resultChar == '2') {
-                                result = 2;
-                            }
-                            else {
-                                result = 3;
-                            }
                             temp2--;
                         }
-
-                        if (result == 1 ){
+                        if (result == 1 || resultChar == '3'){
                             gamesWon++;
                             totalPoints += POINTS_FOR_WIN;
                             results += 1;
+                            result = 1;
                         }
-                        else if (result == 2){
+                        else if (result == 2 || resultChar == '2'){
                             gamesDrawn++;
                             totalPoints += POINTS_FOR_DRAW;
                             results += 2;
+                            result = 2;
                         }
-                        else if (result == 3){
+                        else if (result == 3 || resultChar == '1'){
                             gamesLost++;
                             totalPoints += POINTS_FOR_LOSS;
                             results += 3;
+                            result = 3;
                         }
                         else {
                             System.out.println("Enter a valid result.");
